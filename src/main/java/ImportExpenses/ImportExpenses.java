@@ -14,7 +14,7 @@ public class ImportExpenses {
     private String date;
     private int sum;
     private File file = new File("import.json");
-    private String other = "Другое";
+    private String other = "другое";
     private Expenses expenses;
     private Gson gson = new Gson();
     private HashMap<String, Long> expensesMap = new HashMap<>();
@@ -30,25 +30,28 @@ public class ImportExpenses {
         title = expenses.getTitle();
         date = expenses.getDate();
         sum = expenses.getSum();
-        if (categories.getCategories().containsKey(title)) {
-            if (expensesMap.containsKey(categories.getCategories().get(title))) {
-                long updateSum = expensesMap.remove(categories.getCategories().get(title)) + sum;
-                expensesMap.put(categories.getCategories().get(title), updateSum);
-            } else {
-                expensesMap.put(categories.getCategories().get(title), (long) sum);
-            }
-        } else if (expensesMap.containsKey(other)){
-            long updateSum = expensesMap.remove(other) + sum;
-            expensesMap.put(other, updateSum);
-        } else {
-            expensesMap.put(other, (long) sum);
-        }
+        addCategoryToMap(categories, expenses, other, expensesMap);
         System.out.println(date + " Новые расходы учтены: " + title + " " + sum + " руб.");
         reader.close();
         SOE.getExpensesList().add(expenses);
     }
+    public void addCategoryToMap(Categories categories, Expenses expenses, String other, HashMap<String, Long> expensesMap){
+        if (categories.getCategories().containsKey(expenses.getTitle())) {
+            if (expensesMap.containsKey(categories.getCategories().get(title))) {
+                long updateSum = expensesMap.remove(categories.getCategories().get(expenses.getTitle())) + expenses.getSum();
+                expensesMap.put(categories.getCategories().get(expenses.getTitle()), updateSum);
+            } else {
+                expensesMap.put(categories.getCategories().get(expenses.getTitle()), (long) expenses.getSum());
+            }
+        } else if (expensesMap.containsKey(other)){
+            long updateSum = expensesMap.remove(other) + expenses.getSum();
+            expensesMap.put(other, updateSum);
+        } else {
+            expensesMap.put(other, (long) expenses.getSum());
+        }
+    }
 
-    @Override
+        @Override
     public String toString() {
         return "Expenses{" +
                 "title='" + title + '\'' +
@@ -67,5 +70,11 @@ public class ImportExpenses {
     }
     public StatisticOfExpenses getSOE(){
         return SOE;
+    }
+    public Categories getCategories(){
+        return categories;
+    }
+    public String getOther(){
+        return other;
     }
 }
