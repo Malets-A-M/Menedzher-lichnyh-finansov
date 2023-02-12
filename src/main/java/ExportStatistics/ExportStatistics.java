@@ -40,4 +40,8 @@ public class ExportStatistics {
         result = new String(Files.readAllBytes(Paths.get(file)));
         return result;
     }
+
+    public MaxCategory getMaxCategory() {
+        return maxCategory;
+    }
 }

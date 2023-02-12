@@ -28,7 +28,7 @@ public class Main {
                 if (fileSavingLoading.getSavingLoading().exists()){
                     System.out.println("Найден файл для загрузки");
                     Load load = new Load();
-                    load.loading(importExpenses.getSOE());
+                    load.loading(importExpenses);
                 } else System.out.println("Файл для загрузки отсутствует");
 
                 while (true) {
