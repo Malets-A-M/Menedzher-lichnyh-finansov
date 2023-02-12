@@ -1,9 +1,10 @@
 package ImportExpenses;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatisticOfExpenses {
+public class StatisticOfExpenses implements Serializable {
 
     private List<Expenses> expensesList = new ArrayList<>();
 
