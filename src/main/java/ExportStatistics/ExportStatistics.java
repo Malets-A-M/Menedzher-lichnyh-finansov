@@ -15,17 +15,21 @@ public class ExportStatistics {
     private Gson gson = new Gson();
     private File file = new File("maxCategory.json");
 
-    public void maxCategory(ImportExpenses ImportExpenses) throws IOException {
-        if (!file.exists()) file.createNewFile();
-        for (String title : ImportExpenses.getExpensesMap().keySet()){
+    public void maxCategory(ImportExpenses importExpenses) throws IOException {
+        for (String title : importExpenses.getExpensesMap().keySet()){
             if (maxOfCategory.getSum() == 0){
                 maxOfCategory.setCategory(title);
-                maxOfCategory.setSum(ImportExpenses.getExpensesMap().get(title));
-            } else if (maxOfCategory.getSum() < ImportExpenses.getExpensesMap().get(title)) {
+                maxOfCategory.setSum(importExpenses.getExpensesMap().get(title));
+            } else if (maxOfCategory.getSum() < importExpenses.getExpensesMap().get(title)) {
                 maxOfCategory.setCategory(title);
-                maxOfCategory.setSum(ImportExpenses.getExpensesMap().get(title));
+                maxOfCategory.setSum(importExpenses.getExpensesMap().get(title));
             }
         }
+        writeMaxCategory();
+    }
+
+    public void writeMaxCategory() throws IOException {
+        if (!file.exists()) file.createNewFile();
         Writer writer = Files.newBufferedWriter(Paths.get("maxCategory.json"));
         JsonObject object = new JsonObject();
         JsonObject maxCategory = new JsonObject();
@@ -35,5 +39,8 @@ public class ExportStatistics {
         gson.toJson(object, writer);
         writer.close();
         System.out.println(maxOfCategory);
+    }
+    public MaxCategory getMaxOfCategory(){
+        return maxOfCategory;
     }
 }
